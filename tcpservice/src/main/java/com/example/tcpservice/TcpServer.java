@@ -46,9 +46,12 @@ public class TcpServer extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    Toast.makeText(TcpServer.this, "Connected", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TcpServer.this, "Run", Toast.LENGTH_LONG).show();
                     break;
                 case 1:
+                    Toast.makeText(TcpServer.this, "Connected", Toast.LENGTH_LONG).show();
+                    break;
+                case 2:
                     Toast.makeText(TcpServer.this, "Disconnected", Toast.LENGTH_LONG).show();
                     break;
                 default:

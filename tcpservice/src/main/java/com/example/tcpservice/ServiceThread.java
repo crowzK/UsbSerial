@@ -26,16 +26,19 @@ public class ServiceThread extends Thread {
     public void run(){
         try
         {
+            handler.sendEmptyMessage(0);
             ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
-            socket.setSoTimeout(1000);
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
-            handler.sendEmptyMessage(0);
+            handler.sendEmptyMessage(1);
             while(isRun){
                 if(writer.checkError())
                 {
                     isRun = false;
+                    writer.close();
+                    socket.close();
+                    serverSocket.close();
                     break;
                 }
                 writer.print("this is Test\n");
@@ -45,7 +48,7 @@ public class ServiceThread extends Thread {
         } catch (Exception e){
             e.printStackTrace();
         }
-        handler.sendEmptyMessage(1);
+        handler.sendEmptyMessage(2);
     }
 
 }

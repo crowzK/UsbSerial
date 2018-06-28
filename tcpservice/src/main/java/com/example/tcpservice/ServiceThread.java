@@ -1,15 +1,20 @@
 package com.example.tcpservice;
 
 import android.os.Handler;
-import android.os.Message;
+import java.io.*;
+import java.net.*;
+import java.util.Date;
 
 public class ServiceThread extends Thread {
 
     Handler handler;
     boolean isRun = true;
+    int port;
 
     public ServiceThread(Handler handler){
         this.handler = handler;
+        port = 9999;
+
     }
 
     public void stopForever(){
@@ -19,12 +24,28 @@ public class ServiceThread extends Thread {
     }
 
     public void run(){
-        while(isRun){
+        try
+        {
+            ServerSocket serverSocket = new ServerSocket(port);
+            Socket socket = serverSocket.accept();
+            socket.setSoTimeout(1000);
+            OutputStream output = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
             handler.sendEmptyMessage(0);
-            try {
-                Thread.sleep(10000);
-            }catch (Exception e){}
+            while(isRun){
+                if(writer.checkError())
+                {
+                    isRun = false;
+                    break;
+                }
+                writer.print("this is Test\n");
+                writer.flush();
+                Thread.sleep(1000);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
+        handler.sendEmptyMessage(1);
     }
 
 }

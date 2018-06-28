@@ -44,21 +44,16 @@ public class TcpServer extends Service {
     class TcpServerHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
-/*            Intent intent = new Intent(TcpServer.this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(TcpServer.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            notify = new Notification.Builder(getApplicationContext())
-                    .setContentTitle("Content Title")
-                    .setContentText("Content Text")
-                    .setTicker("알림!!!")
-                    .setContentIntent(pendingIntent)
-                    .build();
-
-            notify.defaults = Notification.DEFAULT_SOUND;
-            notify.flags = Notification.FLAG_ONLY_ALERT_ONCE;
-            notify.flags = Notification.FLAG_AUTO_CANCEL;
-            notifyManager.notify(777, notify);*/
-            Toast.makeText(TcpServer.this, "뜻?", Toast.LENGTH_LONG).show();
+            switch (msg.what){
+                case 0:
+                    Toast.makeText(TcpServer.this, "Connected", Toast.LENGTH_LONG).show();
+                    break;
+                case 1:
+                    Toast.makeText(TcpServer.this, "Disconnected", Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
